@@ -911,6 +911,264 @@ agents.forEach((agent) => {
   agent.creatorShareRate = DEFAULT_CREATOR_SHARE_RATE;
 });
 
+// 详情补全：让每个 Agent 的详情都对齐"张律师民事诉讼助手"的结构
+// （长简介 / 精选案例 / 流程样例 / 工作流覆盖 / 一站式服务）。
+// 已手写完整内容的 Agent（如张律师）会被保留，缺失字段才按分类套件补齐。
+const detailKits = {
+  财务: {
+    core: {
+      title: "核算与差异分析",
+      body: "按科目、规则和阈值完成计算、对账与差异定位，标注异常项及其可能原因。",
+      output: "输出平衡结果、差异清单和需人工确认的疑点。",
+      note: "差异较大的科目建议保留底稿，便于审计追溯。",
+    },
+    materials: ["原始业务数据表（Excel/CSV）", "科目或规则配置", "上期对照数据", "需要重点关注的异常说明"],
+    deliverables: ["处理结果表", "异常与风险清单", "处理说明摘要", "下一步行动建议"],
+    tagline: "从数据导入到结果复核，财务流程一站式托管",
+    introTail: "它把重复的核算、对账与合规校验沉淀为稳定流程，减少人工搬运和口径不一致。",
+  },
+  法务合同: {
+    core: {
+      title: "风险识别与条款审查",
+      body: "按高、中、低风险逐条审查关键条款，识别付款、违约、保密、管辖、续约等风险点。",
+      output: "输出分级风险清单和可直接替换的修改建议。",
+      note: "高风险条款会标注依据，便于与业务方沟通。",
+    },
+    materials: ["合同或文书正文", "交易背景与诉求", "对方主体信息", "已有的内部模板或红线"],
+    deliverables: ["审查意见", "风险分级清单", "修改建议稿", "待确认问题清单"],
+    tagline: "从合同上传到审查意见，法务流程一站式接力",
+    introTail: "它面向合同与合规场景，重视风险分级、修改建议和业务可执行性。",
+  },
+  HR: {
+    core: {
+      title: "流程编排与材料生成",
+      body: "根据岗位、员工状态和制度，生成清单、模板、话术并标注关键时间节点。",
+      output: "输出流程清单、责任人、时间节点和所需材料。",
+      note: "涉及合规与隐私的环节会单独提示。",
+    },
+    materials: ["岗位或员工信息", "公司制度与流程要求", "相关时间节点", "需要沟通的对象"],
+    deliverables: ["流程清单", "模板与话术", "时间节点日历", "合规风险提示"],
+    tagline: "从信息录入到节点跟进，HR 流程一站式托管",
+    introTail: "它围绕招聘、入离职、薪酬和员工关系设计流程，帮 HR 团队减少重复沟通。",
+  },
+  行业垂直: {
+    core: {
+      title: "专业审核与文档生成",
+      body: "结合行业规范和检查项，对材料做合规审核或生成标准文档，定位风险与缺口。",
+      output: "输出审核结论、风险点和补齐清单或标准文档。",
+      note: "规范引用会标注出处，便于核对。",
+    },
+    materials: ["业务材料或方案", "适用的行业规范", "关注的风险或目标", "已有模板或历史资料"],
+    deliverables: ["审核结论", "风险与缺口清单", "标准文档或模板", "整改优先级建议"],
+    tagline: "从材料提交到标准交付，行业流程一站式完成",
+    introTail: "它专注行业知识结构化，把复杂规范、材料和检查项转成可复用的执行模板。",
+  },
+  个人小众: {
+    core: {
+      title: "整理与测算",
+      body: "按规则对个人材料做分类、校正或测算，整理成清晰可用的结果。",
+      output: "输出分类结果、测算明细或规范文档。",
+      note: "涉及金额或格式的结果会给出依据。",
+    },
+    materials: ["个人记录或文档", "适用规则或模板", "目标或偏好说明", "历史数据（可选）"],
+    deliverables: ["整理结果", "测算或分类明细", "规范文档", "下一步建议"],
+    tagline: "从材料整理到结果交付，个人事务一站式搞定",
+    introTail: "它面向个人高频事务打磨轻量模板，强调简单可复制、结果可追踪。",
+  },
+  办公: {
+    core: {
+      title: "内容处理与结构化",
+      body: "理解办公文档或需求，完成摘要、改写、整理或公式与结构生成，并做一致性检查。",
+      output: "输出结构化结果、可复用模板或可直接使用的内容。",
+      note: "对不确定之处会标注，避免臆造内容。",
+    },
+    materials: ["原始文档或素材", "处理目标与受众", "格式或口径要求", "参考示例（可选）"],
+    deliverables: ["处理结果", "结构化大纲或模板", "风险或错误提示", "可转发的版本"],
+    tagline: "从素材输入到成稿交付，办公提效一站式完成",
+    introTail: "它深耕办公提效场景，把文档、会议、表格和邮件处理成可复用的工作流。",
+  },
+  跨境电商: {
+    core: {
+      title: "Listing 与关键词优化",
+      body: "结合产品参数、竞品关键词和目标市场，生成标题、卖点和搜索词并给出测试方向。",
+      output: "输出符合目标站点风格的文案和 A/B 测试建议。",
+      note: "关键词会标注来源和热度参考。",
+    },
+    materials: ["产品参数与卖点", "目标市场与站点", "竞品链接或关键词", "品牌词与禁用词"],
+    deliverables: ["标题与五点描述", "搜索词清单", "A/B 测试方向", "优化说明"],
+    tagline: "从产品参数到上架文案，跨境运营一站式产出",
+    introTail: "它把产品信息和市场关键词转成可直接上架的高转化文案。",
+  },
+  自媒体: {
+    core: {
+      title: "选题与脚本生成",
+      body: "基于品牌定位、目标用户和关键词，产出选题池、标题和内容结构。",
+      output: "输出可执行的选题、标题和脚本大纲。",
+      note: "会区分种草、测评等不同内容形态。",
+    },
+    materials: ["品牌或品类定位", "目标用户画像", "关键词或热点", "参考爆款（可选）"],
+    deliverables: ["选题池", "标题与封面文案", "脚本大纲", "发布节奏建议"],
+    tagline: "从定位到脚本，内容生产一站式完成",
+    introTail: "它把模糊的内容想法转成可直接拍摄或撰写的选题和脚本。",
+  },
+  编程: {
+    core: {
+      title: "诊断与改写建议",
+      body: "读取代码、结构和运行信息，定位瓶颈或问题并给出可执行的改写与优化建议。",
+      output: "输出问题定位、优化方案和风险提示。",
+      note: "建议会说明取舍，便于评估落地成本。",
+    },
+    materials: ["代码或 SQL", "表结构或上下文", "运行或报错信息", "性能或目标要求"],
+    deliverables: ["问题定位说明", "优化或改写方案", "索引或配置建议", "风险与回归提示"],
+    tagline: "从问题输入到优化方案，研发排障一站式完成",
+    introTail: "它把性能与排障经验沉淀成可复用的诊断流程。",
+  },
+  运营: {
+    core: {
+      title: "质检与复盘分析",
+      body: "批量分析会话或数据，识别风险、延迟、转化等指标并归纳可改进项。",
+      output: "输出质检得分、风险清单和复盘建议。",
+      note: "风险样本会按级别排序，便于优先处理。",
+    },
+    materials: ["会话或运营数据", "质检或评估标准", "目标指标", "历史对照（可选）"],
+    deliverables: ["质检或分析得分", "风险与问题清单", "复盘建议", "可训练样本"],
+    tagline: "从数据上传到复盘清单，运营优化一站式完成",
+    introTail: "它把运营数据转成可执行的质检结论和改进清单。",
+  },
+  "AI 绘图": {
+    core: {
+      title: "提示词与构图生成",
+      body: "根据产品、用途和风格，生成可直接用于绘图模型的提示词和构图建议。",
+      output: "输出结构化提示词、负向词和构图方案。",
+      note: "会区分不同尺寸和用途的出图建议。",
+    },
+    materials: ["产品或主体描述", "用途与风格偏好", "尺寸或平台要求", "参考图（可选）"],
+    deliverables: ["出图提示词", "负向词清单", "构图与配色建议", "多版本方案"],
+    tagline: "从一句话需求到出图提示词，创意出图一站式完成",
+    introTail: "它把模糊想法转成可直接执行的出图提示词和构图方案。",
+  },
+  小说创作: {
+    core: {
+      title: "大纲与爽点设计",
+      body: "围绕题材、人设和赛道，搭建世界观、章节大纲并设计冲突、钩子和爽点。",
+      output: "输出世界观、分章大纲和关键爽点设计。",
+      note: "会兼顾留存节奏，避免平铺直叙。",
+    },
+    materials: ["题材与赛道", "主角与人物设定", "已有大纲或片段", "目标平台与篇幅"],
+    deliverables: ["世界观设定", "分章大纲", "爽点与钩子清单", "开篇样章"],
+    tagline: "从书名设定到分章大纲，网文创作一站式推进",
+    introTail: "它聚焦网文创作链路，用结构化方法补齐大纲、人物、爽点和章节节奏。",
+  },
+  营销: {
+    core: {
+      title: "触达内容与节奏设计",
+      body: "基于客户画像、痛点和卖点，生成邮件或消息序列并规划跟进节奏。",
+      output: "输出多封触达内容和跟进时间表。",
+      note: "会区分首次触达与跟进的口径。",
+    },
+    materials: ["客户画像与行业", "产品卖点与痛点", "触达渠道", "已有话术（可选）"],
+    deliverables: ["触达内容序列", "跟进节奏表", "多渠道版本", "效果跟踪建议"],
+    tagline: "从客户画像到触达序列，获客触达一站式完成",
+    introTail: "它把客户洞察转成可直接发送的触达内容和跟进节奏。",
+  },
+};
+
+const fallbackDetailKit = {
+  core: {
+    title: "核心处理",
+    body: "围绕任务目标完成关键处理，定位重点、风险与可改进项。",
+    output: "输出处理结果、关键结论和风险提示。",
+    note: "关键结论会说明依据，避免过度承诺。",
+  },
+  materials: ["相关输入材料", "任务目标与要求", "参考资料（可选）", "需要重点关注的问题"],
+  deliverables: ["处理结果", "关键结论摘要", "风险与建议清单", "下一步行动建议"],
+  tagline: "从输入到交付，全流程一站式完成",
+  introTail: "它通过系统化流程把复杂任务拆成可执行步骤，帮你减少重复操作、保证口径一致。",
+};
+
+function buildDetailCases(agent) {
+  const source = agent.examples && agent.examples.length ? agent.examples : [agent.description];
+  const tags = agent.tags || [];
+  return source.slice(0, 3).map((body, index) => ({
+    title: tags[index] ? `${tags[index]}场景` : `典型场景 ${index + 1}`,
+    body,
+  }));
+}
+
+function buildWorkflowSteps(agent, kit) {
+  const tagList = (agent.tags || []).join("、") || "关键字段";
+  const firstDeliverables = kit.deliverables.slice(0, 2).join("、");
+  const lastDeliverable = kit.deliverables[kit.deliverables.length - 1] || "结果文件";
+  return [
+    {
+      title: "Step1 需求确认与输入校验",
+      body: `明确本次${agent.category}任务目标，确认需要的输入：${kit.materials.slice(0, 3).join("、")}，并校验资料是否齐全、口径是否一致。`,
+      trigger: "节点触发：我需要准备哪些材料？",
+      output: "列出待补齐材料清单，并确认任务范围与交付标准。",
+      note: "资料不全时会先提示补充，避免后续返工。",
+    },
+    {
+      title: "Step2 资料解析与结构化",
+      body: `读取并解析输入内容，抽取${tagList}等要素，整理成结构化数据，便于后续处理与核对。`,
+      trigger: "节点触发：帮我把材料整理清楚。",
+      output: "输出结构化要素表和疑点标记。",
+      note: "对识别置信度较低的内容会单独标注，供人工确认。",
+    },
+    {
+      title: `Step3 ${kit.core.title}`,
+      body: kit.core.body,
+      trigger: "节点触发：开始核心处理。",
+      output: kit.core.output,
+      note: kit.core.note,
+    },
+    {
+      title: "Step4 结果生成与质量检查",
+      body: `生成${firstDeliverables}等交付物，并对结果做一致性、完整性和风险检查。`,
+      trigger: "节点触发：把结果生成出来。",
+      output: "产出可直接使用的交付物，并附质检说明和风险提示。",
+      note: "关键结论会给出依据，避免过度承诺。",
+    },
+    {
+      title: "Step5 交付与跟进",
+      body: "输出最终交付物并说明使用方式，对需要持续跟踪的事项生成提醒与下一步行动清单。",
+      trigger: "节点触发：后面每一步提醒我。",
+      output: `交付${lastDeliverable}，并生成跟进与提醒清单。`,
+      note: "重要节点需你确认后再进入下一步。",
+    },
+  ];
+}
+
+function enrichAgentDetail(agent) {
+  const kit = detailKits[agent.category] || fallbackDetailKit;
+
+  if (!agent.detailCategory) agent.detailCategory = agent.category;
+  if (!agent.detailIntro) agent.detailIntro = `${agent.description} ${kit.introTail}`;
+  if (!agent.caseStudies) agent.caseStudies = buildDetailCases(agent);
+  if (!agent.workflowSteps) agent.workflowSteps = buildWorkflowSteps(agent, kit);
+
+  if (!agent.scriptFlow) {
+    const head = kit.materials.slice(0, 2).join("、");
+    const rest = kit.materials.slice(2).join("、") || "关键信息";
+    agent.scriptFlow = {
+      title: `${agent.name} 流程样例`,
+      scenario: `用户提供${head}并说明目标；Agent 确认任务范围后，追问缺失的${rest}。`,
+      materials: kit.materials,
+      summary: "材料补齐后，Agent 将任务拆成 5 个步骤，从输入校验到交付跟进逐步给出可执行结果。",
+    };
+  }
+
+  if (!agent.oneStop) {
+    agent.oneStop = {
+      tagline: kit.tagline,
+      promise: `你只需要把材料交给我：${kit.materials.slice(0, 3).join("、")}等，我会完成解析、${kit.core.title}、结果生成与质检、交付与跟进，全程一站式接力，不用在多个工具之间来回切换。`,
+      currentStage: 2,
+      deliverables: kit.deliverables,
+    };
+  }
+}
+
+agents.forEach(enrichAgentDetail);
+
 const workflowTools = [
   { value: "llm.chat", label: "llm.chat", meta: "通用推理" },
   { value: "llm.extract", label: "llm.extract", meta: "结构化抽取" },
