@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WPS Agent共享平台</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">WPS</div>
+          <div>
+            <strong>WPS Agent共享平台</strong>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" data-view="market">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 8h16M6 8v11h12V8M8 8a4 4 0 0 1 8 0" /></svg>
+            </span>
+            <span>Agent 市场</span>
+          </button>
+          <button class="nav-item" type="button" data-view="build">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14M4 4h16v16H4z" /></svg>
+            </span>
+            <span>搭建 Agent</span>
+          </button>
+          <button class="nav-item" type="button" data-view="import">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 18h14" /></svg>
+            </span>
+            <span>导入中心</span>
+          </button>
+          <button class="nav-item" type="button" data-view="run">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 8h10M7 12h6m-9 8V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8z" /></svg>
+            </span>
+            <span>调用工作台</span>
+          </button>
+          <button class="nav-item" type="button" data-view="creator">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 19V8m6 11V5m6 14v-8m4 8H2" /></svg>
+            </span>
+            <span>创作者后台</span>
+          </button>
+          <button class="nav-item" type="button" data-view="billing">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 7h16v10H4zM7 11h4m5 3h1" /></svg>
+            </span>
+            <span>积分账单</span>
+          </button>
+          <button class="nav-item" type="button" data-view="trust">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.8 8.3 7 10 4.2-1.7 7-5.5 7-10V6z" /></svg>
+            </span>
+            <span>审核与安全</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-user">
+          <span class="user-avatar" aria-hidden="true">刘</span>
+          <div>
+            <strong>刘晨</strong>
+            <span>8,420 积分</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <label class="search-box" for="globalSearch">
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="m21 21-4.4-4.4M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4z" /></svg>
+            </span>
+            <input id="globalSearch" type="search" placeholder="搜索 Agent、创作者、场景" autocomplete="off" />
+          </label>
+          <div class="topbar-actions">
+            <button class="icon-button" type="button" title="通知" aria-label="通知">
+              <svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></svg>
+            </button>
+            <div class="credit-pill">
+              <span>余额</span>
+              <strong>8,420</strong>
+              <span>积分</span>
+            </div>
+            <button class="primary-button" type="button" data-view-link="build">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+              <span>搭建 Agent</span>
+            </button>
+          </div>
+        </header>
+
+        <section class="view active" id="marketView" data-view-panel="market">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Marketplace</p>
+              <h1>Agent 市场</h1>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <div class="segmented" role="tablist" aria-label="市场频道">
+              <button class="active" type="button">推荐</button>
+              <button type="button">热门</button>
+              <button type="button">新晋</button>
+              <button type="button">本周精选</button>
+            </div>
+            <div class="filter-row">
+              <select id="sortFilter" aria-label="排序">
+                <option value="score">按综合评分</option>
+                <option value="calls">按调用量</option>
+                <option value="health">按健康度</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="category-row" id="categoryRow" aria-label="场景分类"></div>
+
+          <div class="market-layout">
+            <div class="agent-grid" id="agentGrid" aria-live="polite"></div>
+            <aside class="detail-panel" id="agentDetail" aria-label="Agent 详情"></aside>
+          </div>
+        </section>
+
+        <section class="view" id="buildView" data-view-panel="build">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Build Space</p>
+              <h1>自建 Agent</h1>
+            </div>
+            <div class="step-strip" aria-label="搭建步骤">
+              <span class="active">目标描述</span>
+              <span>人设指令</span>
+              <span>知识与工具</span>
+              <span>沙箱试跑</span>
+              <span>发布</span>
+            </div>
+          </div>
+
+          <div class="build-layout">
+            <form class="build-form input-panel" id="createDraftForm">
+              <div class="panel-head">
+                <h2>从目标开始</h2>
+                <span>创建真实草稿记录</span>
+              </div>
+              <label class="field-block" for="builderOwnerId">
+                <span>用户 ID</span>
+                <input id="builderOwnerId" name="ownerUserId" type="text" autocomplete="username" required />
+              </label>
+              <label class="field-block" for="builderAgentName">
+                <span>Agent 名称</span>
+                <input id="builderAgentName" name="name" type="text" maxlength="80" required />
+              </label>
+              <label class="field-block" for="builderGoal">
+                <span>要解决的场景</span>
+                <textarea id="builderGoal" name="description" rows="7" maxlength="1000" required></textarea>
+              </label>
+              <label class="field-block" for="builderVisibility">
+                <span>可见范围</span>
+                <select id="builderVisibility" name="visibility">
+                  <option value="private">仅自己可见</option>
+                  <option value="team">团队空间可见</option>
+                  <option value="marketplace">准备上架市场</option>
+                </select>
+              </label>
+              <div class="button-row">
+                <button class="primary-button" type="submit" id="createDraftButton">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                  <span>创建草稿</span>
+                </button>
+              </div>
+            </form>
+
+            <aside class="build-state-panel">
+              <div class="panel-head">
+                <h2>搭建状态</h2>
+                <span>HTTP → DB</span>
+              </div>
+              <div class="status-banner idle" id="buildStatus">
+                填写目标并创建草稿后，会写入 SQLite 并返回下一步。
+              </div>
+              <div class="draft-summary" id="buildDraftSummary">
+                <div>
+                  <span>当前草稿</span>
+                  <strong>尚未创建</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <section class="workflow-builder input-panel" aria-labelledby="workflowBuilderTitle">
+            <div class="workflow-head">
+              <div>
+                <p class="eyebrow">Workflow Plan</p>
+                <h2 id="workflowBuilderTitle">工作流计划</h2>
+              </div>
+              <div class="workflow-actions">
+                <button class="secondary-button" type="button" id="generateWorkflowButton">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14.6-4.5M20 5v5h-5M20 12a8 8 0 0 1-14.6 4.5M4 19v-5h5" /></svg>
+                  <span>生成计划</span>
+                </button>
+                <button class="ghost-button" type="button" id="addWorkflowNodeButton">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                  <span>新增节点</span>
+                </button>
+                <button class="ghost-button" type="button" id="resetWorkflowButton">重置</button>
+              </div>
+            </div>
+
+            <div class="workflow-summary" id="workflowSummary" aria-label="工作流总览">
+              <div>
+                <span>总步骤</span>
+                <strong>0</strong>
+              </div>
+              <div>
+                <span>预估耗时</span>
+                <strong>0 分钟</strong>
+              </div>
+              <div>
+                <span>预估成本</span>
+                <strong>$0.00</strong>
+              </div>
+              <div>
+                <span>介入级别</span>
+                <strong>L0 0 · L1 0 · L2 0 · L3 0</strong>
+              </div>
+            </div>
+
+            <div class="status-banner idle" id="workflowStatus">
+              输入目标后可生成一份线性工作流计划。当前计划仅保存在页面内，不会写入后端。
+            </div>
+
+            <div class="workflow-node-list" id="workflowNodeList" aria-live="polite"></div>
+          </section>
+        </section>
+
+        <section class="view" id="importView" data-view-panel="import">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Import Hub</p>
+              <h1>导入中心</h1>
+            </div>
+            <div class="step-strip" aria-label="导入步骤">
+              <span class="done">选择来源</span>
+              <span class="active">解析预览</span>
+              <span>沙箱试跑</span>
+              <span>提交审核</span>
+            </div>
+          </div>
+
+          <div class="import-layout">
+            <div class="source-panel">
+              <div class="panel-head">
+                <h2>选择导入源</h2>
+                <span>Phase 1 优先</span>
+              </div>
+              <div class="source-grid" id="sourceGrid"></div>
+            </div>
+
+            <div class="import-workspace">
+              <div class="input-panel">
+                <div class="panel-head">
+                  <h2 id="selectedSourceName">Coze JSON / ZIP</h2>
+                  <span id="selectedSourceMeta">工作流节点映射到统一 Schema</span>
+                </div>
+                <div class="upload-drop" id="uploadDrop">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" /></svg>
+                  <div>
+                    <strong>拖放导出文件</strong>
+                    <span>JSON、ZIP、YAML、Markdown 或纯 Prompt 文本</span>
+                  </div>
+                  <button class="secondary-button" type="button">选择文件</button>
+                </div>
+                <label class="field-block" id="promptPasteField" for="promptPaste">
+                  <span>粘贴内容或链接</span>
+                  <textarea id="promptPaste" rows="8">你是一个跨境电商 Listing 优化专家。请根据用户提供的产品参数、竞品关键词和目标市场，生成标题、五点描述、搜索词和 A/B 测试建议。</textarea>
+                </label>
+                <div class="bind-panel" id="bindAgentPanel" hidden>
+                  <div class="bind-steps">
+                    <div class="bind-step active">
+                      <span>01</span>
+                      <strong>复制指令</strong>
+                      <em>系统会完成能力读取并生成预览。</em>
+                    </div>
+                    <div class="bind-step">
+                      <span>02</span>
+                      <strong>授权预览</strong>
+                      <em>无需等待外部智能体返回。</em>
+                    </div>
+                    <div class="bind-step">
+                      <span>03</span>
+                      <strong>确认绑定</strong>
+                      <em>可留空，直接进入绑定状态。</em>
+                    </div>
+                  </div>
+                  <label class="field-block" for="bindInstruction">
+                    <span>绑定指令</span>
+                    <textarea id="bindInstruction" rows="8" readonly></textarea>
+                  </label>
+                  <div class="button-row">
+                    <button class="secondary-button" type="button" id="copyBindInstruction">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h10v12H8zM6 16H4V4h12v2" /></svg>
+                      <span>复制指令</span>
+                    </button>
+                  </div>
+                  <label class="field-block" for="authorizationCode">
+                    <span>授权码</span>
+                    <input id="authorizationCode" type="text" autocomplete="off" placeholder="可留空，系统自动生成" />
+                  </label>
+                  <div class="button-row">
+                    <button class="primary-button" type="button" id="confirmAuthorization">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+                      <span>确认授权</span>
+                    </button>
+                    <button class="ghost-button" type="button" id="checkBindStatus">查看绑定状态</button>
+                  </div>
+                  <div class="status-banner idle" id="bindStatus">可直接完成授权预览。</div>
+                </div>
+                <div class="button-row" id="importDefaultActions">
+                  <button class="primary-button" type="button" id="parseButton">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+                    <span>解析预览</span>
+                  </button>
+                  <button class="ghost-button" type="button">保存草稿</button>
+                </div>
+              </div>
+
+              <div class="schema-panel">
+                <div class="panel-head">
+                  <h2>Platform Agent Schema</h2>
+                  <span id="schemaState">已解析 14 个字段</span>
+                </div>
+                <div class="schema-preview" id="schemaPreview"></div>
+                <div class="issue-list" id="issueList"></div>
+              </div>
+            </div>
+
+            <div class="publish-panel">
+              <div class="panel-head">
+                <h2>上架前检查</h2>
+                <span>上架检查</span>
+              </div>
+              <ul class="check-list">
+                <li><span class="pass"></span>Prompt 加密字段已生成</li>
+                <li><span class="pass"></span>样例已准备</li>
+                <li><span class="pass"></span>工具调用权限已校验</li>
+                <li><span class="pass"></span>能力校验通过，可返回结构化结果</li>
+              </ul>
+              <div class="sandbox-results">
+                <strong>沙箱试跑</strong>
+                <div class="run-dots" aria-label="三次试跑结果">
+                  <span class="ok"></span>
+                  <span class="ok"></span>
+                  <span class="wait"></span>
+                </div>
+              </div>
+              <div class="market-form">
+                <label>
+                  <span>市场名称</span>
+                  <input type="text" value="跨境 Listing 优化师" />
+                </label>
+                <label>
+                  <span>分类</span>
+                  <select>
+                    <option>跨境电商</option>
+                    <option>营销</option>
+                    <option>编程</option>
+                  </select>
+                </label>
+                <label>
+                  <span>回复方式</span>
+                  <input type="text" value="结构化回复" />
+                </label>
+              </div>
+              <button class="primary-button full" type="button">提交审核</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="runView" data-view-panel="run">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Usage</p>
+              <h1>调用工作台</h1>
+            </div>
+            <div class="limit-control">
+              <span>状态</span>
+              <strong>已就绪</strong>
+            </div>
+          </div>
+
+          <div class="run-layout">
+            <aside class="agent-list-panel">
+              <div class="panel-head">
+                <h2>我的 Agent</h2>
+                <span>最近使用</span>
+              </div>
+              <div id="runAgentList" class="run-agent-list"></div>
+            </aside>
+
+            <div class="chat-panel">
+              <div class="chat-head">
+                <div>
+                  <h2 id="chatAgentName">跨境 Listing 优化师</h2>
+                  <span id="chatAgentMeta">行业垂直 · 工作流</span>
+                </div>
+                <button class="icon-button" type="button" title="收藏回复" aria-label="收藏回复">
+                  <svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.5-6.6L2.5 10l6.8-.6L12 3l2.7 6.4 6.8.6-5.2 4.4 1.5 6.6z" /></svg>
+                </button>
+              </div>
+              <div class="prompt-panel">
+                <div class="prompt-panel-head">
+                  <strong>推荐提问</strong>
+                </div>
+                <div class="prompt-chip-row" id="promptChipRow"></div>
+              </div>
+              <div class="chat-stream" id="chatStream"></div>
+              <div class="composer">
+                <textarea id="chatInput" rows="4" placeholder="选择上方推荐提问，或直接输入你要交给 Agent 的任务。"></textarea>
+                <div class="composer-actions">
+                  <button class="primary-button" type="button" id="sendMessage">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z" /></svg>
+                    <span>确认调用</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <aside class="agent-info-panel" id="runAgentInfo" aria-label="Agent 详情介绍">
+              <div class="panel-head">
+                <h2>Agent 详情</h2>
+                <span>能力介绍</span>
+              </div>
+              <div class="agent-info-empty">选择 Agent 后展示介绍、标签和流程覆盖。</div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="creatorView" data-view-panel="creator">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Creator Console</p>
+              <h1>创作者后台</h1>
+            </div>
+            <button class="secondary-button" type="button">申请提现</button>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="metric-card">
+              <span>本月收入</span>
+              <strong>¥42,680</strong>
+              <em>+18.4%</em>
+            </div>
+            <div class="metric-card">
+              <span>调用次数</span>
+              <strong>128,940</strong>
+              <em>+12.1%</em>
+            </div>
+            <div class="metric-card">
+              <span>好评率</span>
+              <strong>96.2%</strong>
+              <em>稳定</em>
+            </div>
+            <div class="metric-card">
+              <span>健康度</span>
+              <strong>91</strong>
+              <em>可上榜</em>
+            </div>
+          </div>
+
+          <div class="creator-layout">
+            <div class="chart-panel">
+              <div class="panel-head">
+                <h2>收入与调用趋势</h2>
+                <span>最近 7 天</span>
+              </div>
+              <div class="bar-chart" aria-label="收入趋势图">
+                <span style="--h: 52%"></span>
+                <span style="--h: 68%"></span>
+                <span style="--h: 45%"></span>
+                <span style="--h: 76%"></span>
+                <span style="--h: 61%"></span>
+                <span style="--h: 88%"></span>
+                <span style="--h: 72%"></span>
+              </div>
+            </div>
+
+            <div class="version-panel">
+              <div class="panel-head">
+                <h2>版本与灰度</h2>
+                <span>2 个活跃版本</span>
+              </div>
+              <div class="version-row">
+                <div>
+                  <strong>v3.2</strong>
+                  <span>关键词召回增强</span>
+                </div>
+                <div class="traffic-meter"><span style="width: 50%"></span></div>
+                <button class="ghost-button" type="button">调至 100%</button>
+              </div>
+              <div class="version-row">
+                <div>
+                  <strong>v3.1</strong>
+                  <span>稳定版本</span>
+                </div>
+                <div class="traffic-meter"><span style="width: 50%"></span></div>
+                <button class="ghost-button" type="button">回滚</button>
+              </div>
+            </div>
+
+            <div class="table-panel">
+              <div class="panel-head">
+                <h2>Agent 收益明细</h2>
+                <span>可导出 CSV</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Agent</th>
+                    <th>调用</th>
+                    <th>失败率</th>
+                    <th>收入</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>跨境 Listing 优化师</td>
+                    <td>48,210</td>
+                    <td>1.8%</td>
+                    <td>¥18,420</td>
+                    <td><span class="badge green">上架</span></td>
+                  </tr>
+                  <tr>
+                    <td>B2B 邮件开发</td>
+                    <td>21,906</td>
+                    <td>3.4%</td>
+                    <td>¥9,860</td>
+                    <td><span class="badge green">上架</span></td>
+                  </tr>
+                  <tr>
+                    <td>客服质检复盘</td>
+                    <td>17,442</td>
+                    <td>9.1%</td>
+                    <td>¥6,124</td>
+                    <td><span class="badge amber">观察</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="billingView" data-view-panel="billing">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Credits</p>
+              <h1>积分账单</h1>
+            </div>
+            <div class="limit-control">
+              <span>余额</span>
+              <strong>30,000 积分</strong>
+            </div>
+          </div>
+
+          <div class="billing-layout">
+            <div class="recharge-panel">
+              <div class="panel-head">
+                <h2>充值套餐</h2>
+                <span>明码标价</span>
+              </div>
+              <div class="pack-grid">
+                <button type="button"><strong>¥10</strong><span>1,000 积分</span></button>
+                <button type="button" class="active"><strong>¥50</strong><span>5,600 积分</span></button>
+                <button type="button"><strong>¥200</strong><span>23,500 积分</span></button>
+                <button type="button"><strong>¥1000</strong><span>125,000 积分</span></button>
+              </div>
+              <div class="payment-methods">
+                <label><input type="radio" name="pay" checked /> 微信支付</label>
+                <label><input type="radio" name="pay" /> 支付宝</label>
+                <label><input type="radio" name="pay" /> Stripe</label>
+              </div>
+            </div>
+
+            <div class="formula-panel">
+              <div class="panel-head">
+                <h2>计费公式</h2>
+                <span>调用前展示</span>
+              </div>
+              <div class="formula-box">
+                <strong>真实用量计费</strong>
+                <span>模型 Token 成本 + 工具调用成本 = 计费基数，平台与创作者按比例分成</span>
+              </div>
+              <div class="ledger-list">
+                <div><span>输入 token</span><strong>0.002 积分 / 1K</strong></div>
+                <div><span>输出 token</span><strong>0.006 积分 / 1K</strong></div>
+                <div><span>平台分成</span><strong>30%</strong></div>
+                <div><span>创作者分成</span><strong>70%</strong></div>
+              </div>
+            </div>
+
+            <div class="table-panel">
+              <div class="panel-head">
+                <h2>最近流水</h2>
+                <span>可开发票</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>时间</th>
+                    <th>类型</th>
+                    <th>对象</th>
+                    <th>变动</th>
+                    <th>余额</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>05-22 14:18</td>
+                    <td>调用</td>
+                    <td>跨境 Listing 优化师</td>
+                    <td>-18</td>
+                    <td>8,420</td>
+                  </tr>
+                  <tr>
+                    <td>05-22 10:06</td>
+                    <td>退款</td>
+                    <td>工具超时</td>
+                    <td>+12</td>
+                    <td>8,438</td>
+                  </tr>
+                  <tr>
+                    <td>05-21 19:44</td>
+                    <td>充值</td>
+                    <td>¥50 套餐</td>
+                    <td>+5,600</td>
+                    <td>8,426</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="trustView" data-view-panel="trust">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Trust & Safety</p>
+              <h1>审核与安全</h1>
+            </div>
+            <button class="secondary-button" type="button">查看举报队列</button>
+          </div>
+
+          <div class="trust-layout">
+            <div class="audit-panel">
+              <div class="panel-head">
+                <h2>待审 Agent</h2>
+                <span>自动审核 + 抽检</span>
+              </div>
+              <div class="audit-list">
+                <div class="audit-row">
+                  <div>
+                    <strong>短视频脚本爆款生成器</strong>
+                    <span>相似度检测 87% · 需人工复核</span>
+                  </div>
+                  <button class="ghost-button" type="button">处理</button>
+                </div>
+                <div class="audit-row">
+                  <div>
+                    <strong>独立站 SEO 顾问</strong>
+                    <span>工具权限新增爬虫 · 需确认范围</span>
+                  </div>
+                  <button class="ghost-button" type="button">处理</button>
+                </div>
+                <div class="audit-row">
+                  <div>
+                    <strong>招聘 JD 优化</strong>
+                    <span>Prompt 扫描通过 · 等待抽检</span>
+                  </div>
+                  <button class="ghost-button" type="button">处理</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="safety-grid">
+              <div class="safety-item">
+                <strong>Prompt 黑盒</strong>
+                <span>系统 prompt 加密存储，前端、日志、报错均不回显。</span>
+              </div>
+              <div class="safety-item">
+                <strong>越狱拦截</strong>
+                <span>检测忽略指令、泄露 prompt、角色反转等攻击模式。</span>
+              </div>
+              <div class="safety-item">
+                <strong>隐私授权</strong>
+                <span>创作者默认只能查看聚合统计，原文需用户主动授权。</span>
+              </div>
+              <div class="safety-item">
+                <strong>失败率降权</strong>
+                <span>超时率、报错率、放弃率异常波动后自动进入观察。</span>
+              </div>
+            </div>
+
+            <div class="risk-panel">
+              <div class="panel-head">
+                <h2>风险仪表</h2>
+                <span>今日</span>
+              </div>
+              <div class="risk-meter">
+                <span style="width: 22%"></span>
+              </div>
+              <div class="ledger-list">
+                <div><span>高相似度上架</span><strong>8</strong></div>
+                <div><span>越狱拦截</span><strong>126</strong></div>
+                <div><span>工具超时</span><strong>41</strong></div>
+                <div><span>用户举报</span><strong>13</strong></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="doc-overlay" id="docPreview" aria-hidden="true">
+      <div class="doc-modal" role="dialog" aria-modal="true" aria-label="文书预览">
+        <div class="doc-modal-head">
+          <div class="doc-head-meta">
+            <strong class="doc-title">文书预览</strong>
+            <span class="doc-file"></span>
+          </div>
+          <div class="doc-head-actions">
+            <a class="doc-download" href="#" download>下载文件</a>
+            <button class="doc-close" type="button" aria-label="关闭预览">✕</button>
+          </div>
+        </div>
+        <div class="doc-page">
+          <div class="doc-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

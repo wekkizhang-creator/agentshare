@@ -1,0 +1,16 @@
+__pycache__/
+node_modules/
+*.pyc
+*.db
+*.sqlite
+*.sqlite3
+*.log
+_temp/
+deliverables/
+video_assets/
+.claude/
+agentport-server.*.log
+*.mp4
+*.webm
+*.avi
+_site/
