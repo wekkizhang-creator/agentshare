@@ -3653,3 +3653,485 @@ th {
     margin-bottom: 16px;
   }
 }
+
+/* ===== 编排能力（自建 Agent）===== */
+.composer-builder {
+  margin-top: 16px;
+}
+
+.composer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.composer-head h2 {
+  margin: 2px 0 0;
+  font-size: 19px;
+}
+
+.composer-mode-pill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--indigo-soft);
+  color: var(--indigo);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.composer-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 16px;
+  align-items: start;
+}
+
+.composer-config {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.composer-group {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-soft);
+}
+
+.composer-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.composer-group-head strong {
+  font-size: 14px;
+}
+
+.composer-group-head span {
+  font-size: 12px;
+  color: var(--soft);
+}
+
+/* Agent 模式卡片 */
+.mode-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mode-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.mode-card:hover {
+  border-color: var(--line-strong);
+}
+
+.mode-card.active {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal) inset;
+  background: var(--teal-soft);
+}
+
+.mode-card-ic {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.mode-card.active .mode-card-ic {
+  background: #fff;
+  border-color: var(--teal);
+}
+
+.mode-card-ic svg {
+  fill: none;
+  stroke: var(--teal-dark);
+  stroke-width: 1.6;
+}
+
+.mode-card strong {
+  font-size: 13px;
+}
+
+.mode-card em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* 能力行 / 项 */
+.cap-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cap-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.cap-inline > span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cap-inline select {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+}
+
+.cap-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.cap-switch input {
+  appearance: none;
+  width: 34px;
+  height: 19px;
+  border-radius: 999px;
+  background: var(--line-strong);
+  position: relative;
+  transition: background 0.15s ease;
+  flex: none;
+}
+
+.cap-switch input::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.cap-switch input:checked {
+  background: var(--teal);
+}
+
+.cap-switch input:checked::after {
+  transform: translateX(15px);
+}
+
+.cap-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.cap-item:first-of-type {
+  border-top: 0;
+}
+
+.cap-item-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cap-ic {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cap-ic.plug {
+  background: var(--indigo);
+}
+
+.cap-ic.flow {
+  background: var(--teal);
+}
+
+.cap-ic.know {
+  background: var(--green);
+}
+
+.cap-ic.mem {
+  background: var(--amber);
+}
+
+.cap-ic.exp {
+  background: var(--coral);
+}
+
+.cap-item-main strong {
+  display: block;
+  font-size: 13px;
+}
+
+.cap-item-main em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.cap-chip {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 5px;
+  background: var(--indigo-soft);
+  color: var(--indigo);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cap-add {
+  flex: none;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--teal-dark);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.cap-add:hover {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.cap-item.cap-added {
+  opacity: 0.85;
+}
+
+.cap-mini-select {
+  flex: none;
+  padding: 6px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel);
+  font-size: 12.5px;
+}
+
+/* 预置问题编辑 */
+.preset-editor {
+  margin: 12px 0;
+}
+
+.preset-editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.preset-editor-head span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.preset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preset-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preset-handle {
+  color: var(--soft);
+  font-size: 12px;
+  cursor: grab;
+}
+
+.preset-row input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+}
+
+.preset-del {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--soft);
+  font-size: 12px;
+}
+
+.preset-del:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+/* 预览与调试 */
+.composer-preview {
+  position: sticky;
+  top: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.composer-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.composer-preview-head strong {
+  font-size: 14px;
+}
+
+.composer-preview-head span {
+  font-size: 11.5px;
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.composer-preview-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 22px 16px 16px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--teal-soft) 0%, transparent 60%),
+    var(--panel-soft);
+  min-height: 320px;
+}
+
+.composer-preview-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  min-height: 0;
+}
+
+.composer-preview-avatar::before,
+.composer-preview-avatar::after {
+  display: none;
+}
+
+.composer-preview-name {
+  font-size: 15px;
+}
+
+.composer-preview-bubble {
+  align-self: stretch;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12.5px;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.composer-preview-chips {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.composer-preview-chips button {
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--teal-dark);
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.composer-preview-chips button:hover {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.composer-preview-foot {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.composer-preview-foot span {
+  display: block;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--soft);
+  font-size: 12.5px;
+}
+
+@media (max-width: 980px) {
+  .composer-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .composer-preview {
+    position: static;
+  }
+}

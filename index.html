@@ -329,6 +329,243 @@
             </aside>
           </div>
 
+          <section class="composer-builder input-panel" aria-labelledby="composerTitle">
+            <div class="composer-head">
+              <div>
+                <p class="eyebrow">Orchestration</p>
+                <h2 id="composerTitle">编排能力</h2>
+              </div>
+              <div class="composer-mode-pill" id="composerModePill">单 Agent · 自主规划模式</div>
+            </div>
+
+            <div class="composer-layout">
+              <div class="composer-config">
+                <div class="composer-group">
+                  <div class="composer-group-head">
+                    <strong>Agent 模式</strong>
+                    <span>决定智能体的运行方式</span>
+                  </div>
+                  <div class="mode-cards" id="composerModeCards">
+                    <button class="mode-card active" type="button" data-agent-mode="auto">
+                      <span class="mode-card-ic" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM15 9l-1.8 4.2L9 15l1.8-4.2z" /></svg>
+                      </span>
+                      <strong>单 Agent · 自主规划</strong>
+                      <em>用户与大模型对话，由一个大语言模型自主思考决策，适用于较简单的业务逻辑。</em>
+                    </button>
+                    <button class="mode-card" type="button" data-agent-mode="flow">
+                      <span class="mode-card-ic" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M4 6h10M4 12h16M4 18h10M18 4v4M18 14v6" /></svg>
+                      </span>
+                      <strong>单 Agent · 对话流</strong>
+                      <em>按对话流编排的流程执行，保留多轮历史记录，适用于结构化、有前后流程的任务。</em>
+                    </button>
+                    <button class="mode-card" type="button" data-agent-mode="multi">
+                      <span class="mode-card-ic" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20a5 5 0 0 1 10 0M12 20a5 5 0 0 1 9-3" /></svg>
+                      </span>
+                      <strong>多 Agents · 协作</strong>
+                      <em>在一个智能体中设置多个 Agent，按职责分工协作，处理复杂逻辑。</em>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="composer-group">
+                  <div class="composer-group-head">
+                    <strong>模型设置</strong>
+                    <span>推理引擎</span>
+                  </div>
+                  <div class="cap-row">
+                    <label class="cap-inline">
+                      <span>模型</span>
+                      <select id="composerModel">
+                        <option>豆包 1.6 · 深度思考</option>
+                        <option>DeepSeek-V3</option>
+                        <option>GPT-4o</option>
+                        <option>Claude 3.7 Sonnet</option>
+                        <option>WPS 自研大模型</option>
+                      </select>
+                    </label>
+                    <label class="cap-switch">
+                      <input type="checkbox" checked />
+                      <span>深度思考</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="composer-group">
+                  <div class="composer-group-head">
+                    <strong>技能</strong>
+                    <span>插件与工作流</span>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic plug" aria-hidden="true">插</span>
+                      <div>
+                        <strong>插件</strong>
+                        <em>联网搜索、文档解析、计算等可调用工具</em>
+                      </div>
+                    </div>
+                    <button class="cap-add" type="button" data-cap-add="插件">+ 添加</button>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic flow" aria-hidden="true">流</span>
+                      <div>
+                        <strong>工作流</strong>
+                        <em>把插件、大模型、代码块组合成稳定业务流程</em>
+                      </div>
+                    </div>
+                    <button class="cap-add" type="button" data-scroll-workflow>配置</button>
+                  </div>
+                </div>
+
+                <div class="composer-group">
+                  <div class="composer-group-head">
+                    <strong>知识</strong>
+                    <span>检索增强</span>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic know" aria-hidden="true">文</span>
+                      <div>
+                        <strong>文本</strong>
+                        <em>法律法规、案例库等文档知识</em>
+                      </div>
+                    </div>
+                    <select class="cap-mini-select"><option>按需调用</option><option>自动调用</option></select>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic know" aria-hidden="true">表</span>
+                      <div>
+                        <strong>表格</strong>
+                        <em>结构化数据，如收费标准、时效表</em>
+                      </div>
+                    </div>
+                    <button class="cap-add" type="button" data-cap-add="表格知识">+ 添加</button>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic know" aria-hidden="true">图</span>
+                      <div>
+                        <strong>照片</strong>
+                        <em>图片素材库，支持图文检索</em>
+                      </div>
+                    </div>
+                    <button class="cap-add" type="button" data-cap-add="照片知识">+ 添加</button>
+                  </div>
+                </div>
+
+                <div class="composer-group">
+                  <div class="composer-group-head">
+                    <strong>记忆</strong>
+                    <span>状态与上下文</span>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic mem" aria-hidden="true">变</span>
+                      <div>
+                        <strong>变量</strong>
+                        <em><span class="cap-chip">sys_images</span> 等会话级变量</em>
+                      </div>
+                    </div>
+                    <button class="cap-add" type="button" data-cap-add="变量">+ 新增</button>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic mem" aria-hidden="true">库</span>
+                      <div>
+                        <strong>数据库</strong>
+                        <em>持久化业务数据表</em>
+                      </div>
+                    </div>
+                    <button class="cap-add" type="button" data-cap-add="数据库">+ 添加</button>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic mem" aria-hidden="true">忆</span>
+                      <div>
+                        <strong>长期记忆</strong>
+                        <em>记住对话内容，基于历史记忆持续服务</em>
+                      </div>
+                    </div>
+                    <label class="cap-switch"><input type="checkbox" checked /><span>开启</span></label>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic mem" aria-hidden="true">盒</span>
+                      <div>
+                        <strong>文件盒子</strong>
+                        <em>存放用户上传与生成的文件</em>
+                      </div>
+                    </div>
+                    <label class="cap-switch"><input type="checkbox" /><span>开启</span></label>
+                  </div>
+                </div>
+
+                <div class="composer-group">
+                  <div class="composer-group-head">
+                    <strong>对话体验</strong>
+                    <span>开场与交互</span>
+                  </div>
+                  <label class="field-block">
+                    <span>开场白文案</span>
+                    <textarea id="composerOpening" rows="3" maxlength="1000">您好，我是律政通，能为您提供法律知识咨询、合同审查等服务，帮您解决常见法律问题。</textarea>
+                  </label>
+                  <div class="preset-editor">
+                    <div class="preset-editor-head">
+                      <span>开场白预置问题</span>
+                      <button class="cap-add" type="button" id="composerAddPreset">+ 新增问题</button>
+                    </div>
+                    <div class="preset-list" id="composerPresetList"></div>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic exp" aria-hidden="true">荐</span>
+                      <div><strong>用户问题建议</strong><em>每轮回复后推荐追问</em></div>
+                    </div>
+                    <label class="cap-switch"><input type="checkbox" id="composerSuggestToggle" checked /><span>开启</span></label>
+                  </div>
+                  <div class="cap-item">
+                    <div class="cap-item-main">
+                      <span class="cap-ic exp" aria-hidden="true">捷</span>
+                      <div><strong>快捷指令</strong><em>一键触发常用任务</em></div>
+                    </div>
+                    <button class="cap-add" type="button" data-cap-add="快捷指令">+ 添加</button>
+                  </div>
+                  <div class="cap-row">
+                    <label class="cap-inline">
+                      <span>用户输入方式</span>
+                      <select id="composerInputMode">
+                        <option>打字输入</option>
+                        <option>语音输入</option>
+                        <option>打字 + 语音</option>
+                      </select>
+                    </label>
+                    <label class="cap-switch"><input type="checkbox" /><span>背景图片</span></label>
+                  </div>
+                </div>
+              </div>
+
+              <aside class="composer-preview" aria-label="预览与调试">
+                <div class="composer-preview-head">
+                  <strong>预览与调试</strong>
+                  <span id="composerPreviewMode">自主规划模式</span>
+                </div>
+                <div class="composer-preview-body">
+                  <div class="composer-preview-avatar agent-cover cover-legal" aria-hidden="true"></div>
+                  <strong class="composer-preview-name" id="composerPreviewName">律政通</strong>
+                  <div class="composer-preview-bubble" id="composerPreviewOpening"></div>
+                  <div class="composer-preview-chips" id="composerPreviewChips"></div>
+                </div>
+                <div class="composer-preview-foot">
+                  <span>发送消息…</span>
+                </div>
+              </aside>
+            </div>
+          </section>
+
           <section class="workflow-builder input-panel" aria-labelledby="workflowBuilderTitle">
             <div class="workflow-head">
               <div>

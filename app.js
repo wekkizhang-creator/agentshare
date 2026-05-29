@@ -896,6 +896,19 @@ const state = {
   search: "",
   workflowNodes: [],
   workflowNodeCounter: 0,
+  composer: {
+    mode: "auto",
+    name: "律政通",
+    opening: "您好，我是律政通，能为您提供法律知识咨询、合同审查等服务，帮您解决常见法律问题。",
+    presets: ["请帮我查一份租房合同", "给我提供一份离婚协议书范本", "遇到物业纠纷该怎么办理解"],
+    showSuggest: true,
+  },
+};
+
+const composerModeLabels = {
+  auto: { pill: "单 Agent · 自主规划模式", preview: "自主规划模式" },
+  flow: { pill: "单 Agent · 对话流模式", preview: "对话流模式" },
+  multi: { pill: "多 Agents · 协作模式", preview: "多 Agent 协作" },
 };
 
 const API_BASE = "/api";
@@ -1336,6 +1349,58 @@ function setView(view) {
   });
   if (view === "run") renderRunView();
   if (view === "inapp") renderInappView();
+}
+
+// ===== 编排能力（自建 Agent）=====
+function renderComposerPresetInputs() {
+  const list = qs("#composerPresetList");
+  if (!list) return;
+  list.innerHTML = state.composer.presets
+    .map(
+      (question, index) => `
+        <div class="preset-row">
+          <span class="preset-handle" aria-hidden="true">⋮⋮</span>
+          <input type="text" maxlength="60" data-preset-index="${index}" value="${escapeHtml(question)}" placeholder="输入开场引导问题" />
+          <button class="preset-del" type="button" data-preset-del="${index}" aria-label="删除问题">✕</button>
+        </div>
+      `,
+    )
+    .join("");
+}
+
+function renderComposerPreview() {
+  const { name, opening, presets, mode, showSuggest } = state.composer;
+  const nameEl = qs("#composerPreviewName");
+  if (nameEl) nameEl.textContent = name || "未命名 Agent";
+  const openingEl = qs("#composerPreviewOpening");
+  if (openingEl) openingEl.textContent = opening || "（暂无开场白）";
+  const chips = qs("#composerPreviewChips");
+  if (chips) {
+    chips.innerHTML = showSuggest
+      ? presets
+          .filter((item) => item.trim())
+          .map((item) => `<button type="button">${escapeHtml(item)}</button>`)
+          .join("")
+      : "";
+  }
+  const pill = qs("#composerModePill");
+  if (pill) pill.textContent = composerModeLabels[mode].pill;
+  const previewMode = qs("#composerPreviewMode");
+  if (previewMode) previewMode.textContent = composerModeLabels[mode].preview;
+  qsa("#composerModeCards .mode-card").forEach((card) => {
+    card.classList.toggle("active", card.dataset.agentMode === mode);
+  });
+}
+
+function renderAgentComposer() {
+  renderComposerPresetInputs();
+  renderComposerPreview();
+}
+
+function setComposerMode(mode) {
+  if (!composerModeLabels[mode]) return;
+  state.composer.mode = mode;
+  renderComposerPreview();
 }
 
 // 端内入口演示：按"正在编辑采购合同"这个上下文推荐的合同/法务类 Agent。
@@ -2561,6 +2626,38 @@ document.addEventListener("click", (event) => {
     bubbleClose.closest(".inapp-bubble")?.classList.add("dismissed");
   }
 
+  const modeCard = event.target.closest("[data-agent-mode]");
+  if (modeCard) {
+    setComposerMode(modeCard.dataset.agentMode);
+  }
+
+  const presetDel = event.target.closest("[data-preset-del]");
+  if (presetDel) {
+    const index = Number(presetDel.dataset.presetDel);
+    state.composer.presets.splice(index, 1);
+    renderAgentComposer();
+  }
+
+  if (event.target.closest("#composerAddPreset")) {
+    state.composer.presets.push("");
+    renderComposerPresetInputs();
+    qs(`#composerPresetList [data-preset-index="${state.composer.presets.length - 1}"]`)?.focus();
+  }
+
+  if (event.target.closest("[data-scroll-workflow]")) {
+    qs(".workflow-builder")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  const capAdd = event.target.closest("[data-cap-add]");
+  if (capAdd) {
+    const item = capAdd.closest(".cap-item");
+    if (item && !item.classList.contains("cap-added")) {
+      item.classList.add("cap-added");
+      capAdd.textContent = "已添加";
+      capAdd.disabled = true;
+    }
+  }
+
   const promptButton = event.target.closest("[data-prompt]");
   if (promptButton) {
     qs("#chatInput").value = promptButton.dataset.prompt;
@@ -2626,10 +2723,30 @@ qs("#workflowNodeList").addEventListener("click", (event) => {
 qs("#workflowNodeList").addEventListener("input", updateWorkflowNodeFromInput);
 qs("#workflowNodeList").addEventListener("change", updateWorkflowNodeFromInput);
 
+qs("#composerOpening")?.addEventListener("input", (event) => {
+  state.composer.opening = event.target.value;
+  renderComposerPreview();
+});
+qs("#composerPresetList")?.addEventListener("input", (event) => {
+  const input = event.target.closest("[data-preset-index]");
+  if (!input) return;
+  state.composer.presets[Number(input.dataset.presetIndex)] = input.value;
+  renderComposerPreview();
+});
+qs("#composerSuggestToggle")?.addEventListener("change", (event) => {
+  state.composer.showSuggest = event.target.checked;
+  renderComposerPreview();
+});
+qs("#builderAgentName")?.addEventListener("input", (event) => {
+  state.composer.name = event.target.value.trim() || "律政通";
+  renderComposerPreview();
+});
+
 renderCategories();
 renderAgentGrid();
 renderSources();
 renderImportInputMode();
 renderRunView();
 renderInappView();
+renderAgentComposer();
 renderWorkflowBuilder();
