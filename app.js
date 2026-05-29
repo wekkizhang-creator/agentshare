@@ -1335,6 +1335,71 @@ function setView(view) {
     button.classList.toggle("active", button.dataset.view === view);
   });
   if (view === "run") renderRunView();
+  if (view === "inapp") renderInappView();
+}
+
+// 端内入口演示：按"正在编辑采购合同"这个上下文推荐的合同/法务类 Agent。
+const inappRecommendations = [
+  { id: "legal", reason: "一键初筛付款、违约、保密和管辖条款风险。" },
+  { id: "contract-review-sop-agent", reason: "按采购合同 SOP 输出可交付的审查意见。" },
+  { id: "contract-lifecycle-agent", reason: "把这份合同纳入审签、履约和到期提醒流程。" },
+  { id: "legal-document-generator", reason: "据此生成补充协议、催告函等配套文书。" },
+  { id: "compliance-checklist-agent", reason: "对照采购合规清单做一次自查。" },
+  { id: "private-lending-litigation-agent", reason: "若后续发生纠纷，衔接诉讼与立案材料。" },
+];
+
+function renderInappView() {
+  const rail = qs("#inappAgentList");
+  if (rail) {
+    rail.innerHTML = inappRecommendations
+      .map(({ id, reason }) => {
+        const agent = agents.find((item) => item.id === id);
+        if (!agent) return "";
+        return `
+          <div class="inapp-agent-card" data-open-agent="${agent.id}">
+            <div class="inapp-agent-cover agent-cover ${agent.cover}" aria-hidden="true"></div>
+            <div class="inapp-agent-body">
+              <div class="inapp-agent-top">
+                <strong>${escapeHtml(agent.name)}</strong>
+                <span class="inapp-agent-score">★ ${agent.rating.toFixed(1)}</span>
+              </div>
+              <p class="inapp-agent-reason">${escapeHtml(reason)}</p>
+              <div class="inapp-agent-actions">
+                <button class="inapp-use" type="button" data-run-agent="${agent.id}">立即使用</button>
+                <button class="inapp-open" type="button" data-open-agent="${agent.id}">查看详情</button>
+              </div>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+  const chipWrap = qs("#inappBubbleChips");
+  if (chipWrap) {
+    chipWrap.innerHTML = inappRecommendations
+      .slice(0, 3)
+      .map(({ id }) => {
+        const agent = agents.find((item) => item.id === id);
+        if (!agent) return "";
+        return `<button type="button" data-open-agent="${agent.id}">${escapeHtml(agent.name)}</button>`;
+      })
+      .join("");
+  }
+}
+
+// 从端内入口跳转到 Agent 市场，并选中对应 Agent 直接展示详情。
+function openAgentInMarket(agentId) {
+  state.activeAgentId = agentId;
+  state.activeCategory = "全部";
+  state.search = "";
+  const searchInput = qs("#globalSearch");
+  if (searchInput) searchInput.value = "";
+  renderCategories();
+  renderAgentGrid();
+  renderRunView();
+  setView("market");
+  qs("#agentDetail")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function renderCategories() {
@@ -2486,6 +2551,16 @@ document.addEventListener("click", (event) => {
     setView("run");
   }
 
+  const openAgentButton = event.target.closest("[data-open-agent]");
+  if (openAgentButton && !event.target.closest("[data-run-agent]")) {
+    openAgentInMarket(openAgentButton.dataset.openAgent);
+  }
+
+  const bubbleClose = event.target.closest(".inapp-bubble-close");
+  if (bubbleClose) {
+    bubbleClose.closest(".inapp-bubble")?.classList.add("dismissed");
+  }
+
   const promptButton = event.target.closest("[data-prompt]");
   if (promptButton) {
     qs("#chatInput").value = promptButton.dataset.prompt;
@@ -2556,4 +2631,5 @@ renderAgentGrid();
 renderSources();
 renderImportInputMode();
 renderRunView();
+renderInappView();
 renderWorkflowBuilder();

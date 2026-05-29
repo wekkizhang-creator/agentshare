@@ -23,6 +23,12 @@
             </span>
             <span>Agent 市场</span>
           </button>
+          <button class="nav-item" type="button" data-view="inapp">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" /></svg>
+            </span>
+            <span>端内入口演示</span>
+          </button>
           <button class="nav-item" type="button" data-view="build">
             <span class="nav-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14M4 4h16v16H4z" /></svg>
@@ -123,6 +129,137 @@
           <div class="market-layout">
             <div class="agent-grid" id="agentGrid" aria-live="polite"></div>
             <aside class="detail-panel" id="agentDetail" aria-label="Agent 详情"></aside>
+          </div>
+        </section>
+
+        <section class="view" id="inappView" data-view-panel="inapp">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">In-App Entry</p>
+              <h1>端内入口演示</h1>
+            </div>
+            <div class="limit-control">
+              <span>场景</span>
+              <strong>WPS 文字 · 采购合同</strong>
+            </div>
+          </div>
+
+          <p class="inapp-lead">
+            在用户真正编辑文档的地方把 Agent 市场推到面前。下面是一份正在编辑的《采购合同》，
+            演示 4 类从文档到 Agent 的入口，引导用户在不离开文档的情况下用上这些 Agent。
+          </p>
+
+          <div class="inapp-strategy" aria-label="入口策略">
+            <div class="inapp-strategy-card">
+              <span class="inapp-strategy-no">01</span>
+              <strong>工具栏全局入口</strong>
+              <p>编辑器顶部常驻「Agent 市场」按钮，任何文档随时可进入。</p>
+            </div>
+            <div class="inapp-strategy-card">
+              <span class="inapp-strategy-no">02</span>
+              <strong>上下文智能推荐</strong>
+              <p>识别文档类型（采购合同），主动弹出最相关的 Agent，转化最高。</p>
+            </div>
+            <div class="inapp-strategy-card">
+              <span class="inapp-strategy-no">03</span>
+              <strong>选中文本即处理</strong>
+              <p>选中条款时弹出悬浮菜单，把选区直接交给 Agent 处理。</p>
+            </div>
+            <div class="inapp-strategy-card">
+              <span class="inapp-strategy-no">04</span>
+              <strong>右侧 Agent 面板</strong>
+              <p>常驻推荐栏，给出推荐理由与「立即使用 / 查看详情」。</p>
+            </div>
+          </div>
+
+          <div class="inapp-layout">
+            <div class="inapp-editor" aria-label="文档编辑器模拟">
+              <div class="inapp-doc-toolbar">
+                <div class="inapp-tool-tabs">
+                  <span class="active">开始</span>
+                  <span>插入</span>
+                  <span>页面</span>
+                  <span>引用</span>
+                  <span>审阅</span>
+                  <span>视图</span>
+                </div>
+                <div class="inapp-tool-right">
+                  <button class="inapp-ai-entry" type="button" data-view-link="market">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z" /></svg>
+                    <span>Agent 市场</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="inapp-doc-canvas">
+                <div class="inapp-doc-page">
+                  <h2 class="doc2-title">采购合同</h2>
+                  <p class="doc2-no">合同编号：NO.2020001</p>
+                  <p class="doc2-row"><span>需&nbsp;方：</span><i></i><span>供&nbsp;方：</span><i></i></p>
+                  <p class="doc2-row"><span>地&nbsp;址：</span><i></i><span>地&nbsp;址：</span><i></i></p>
+                  <p class="doc2-p">根据《中华人民共和国合同法》及有关法律法规，甲方（需方）与乙方（供方）经平等协商，就商品采购事宜达成一致，自愿签订并遵守本合同。</p>
+
+                  <p class="doc2-h">一、合同标的的商品信息</p>
+                  <table class="doc2-table">
+                    <thead>
+                      <tr><th>产品名称</th><th>规格型号</th><th>数量</th><th>单位</th><th>单价</th><th>金额小计</th><th>交付期限</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    </tbody>
+                  </table>
+                  <p class="doc2-row"><span>总金额：</span>¥<i class="short"></i>元&nbsp;&nbsp;大写<i></i></p>
+
+                  <p class="doc2-h">二、商品质量标准：乙方向甲方提供的产品符合国家同类标准并满足甲方需求。</p>
+                  <p class="doc2-h">三、交货时间：乙方应在 ___ 年 ___ 月 ___ 日之前将货物送至甲方指定的收货地点。</p>
+
+                  <div class="inapp-selection">
+                    <p class="doc2-h selected">五、资金结算：合同签订时甲方应支付总金额的 30% 作为定金，并在验货合格后 3 日内支付剩余 70% 的尾款。</p>
+                    <div class="inapp-selpop" role="menu" aria-label="选区处理">
+                      <span class="inapp-selpop-label">用 Agent 处理选中条款</span>
+                      <div class="inapp-selpop-actions">
+                        <button type="button" data-run-agent="legal">风险初筛</button>
+                        <button type="button" data-run-agent="legal-document-generator">改写条款</button>
+                        <button type="button" data-run-agent="contract-review-sop-agent">审查意见</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="doc2-h">六、货物验收：货物送达后，甲方应在 5 日内书面通知乙方，乙方应在得到通知后 3 日内进行补货或换货处理。</p>
+                  <p class="doc2-h">七、违约责任：如因任一方违反合同约定造成对方损失的，违约方应承担相应经济赔偿与法律责任。</p>
+                  <p class="doc2-h">八、本合同一式两份，双方各执一份，具有同等法律效力。</p>
+                  <p class="doc2-row sign"><span>需方盖章：</span><i></i><span>供方盖章：</span><i></i></p>
+                </div>
+
+                <div class="inapp-bubble" aria-label="智能推荐">
+                  <button class="inapp-bubble-close" type="button" aria-label="关闭推荐">✕</button>
+                  <div class="inapp-bubble-head">
+                    <span class="inapp-bubble-dot" aria-hidden="true"></span>
+                    <strong>检测到你正在编辑《采购合同》</strong>
+                  </div>
+                  <p>已匹配可直接处理合同的 Agent，点一下就能用：</p>
+                  <div class="inapp-bubble-chips" id="inappBubbleChips"></div>
+                  <button class="inapp-bubble-more" type="button" data-view-link="market">打开 Agent 市场 →</button>
+                </div>
+              </div>
+            </div>
+
+            <aside class="inapp-rail" aria-label="推荐 Agent">
+              <div class="inapp-rail-head">
+                <div>
+                  <strong>Agent 助手</strong>
+                  <span>按当前文档智能推荐</span>
+                </div>
+                <button class="ghost-button" type="button" data-view-link="market">全部</button>
+              </div>
+              <div class="inapp-rail-list" id="inappAgentList" aria-live="polite"></div>
+              <div class="inapp-rail-foot">
+                <span>没有合适的？</span>
+                <button class="secondary-button" type="button" data-view-link="market">去 Agent 市场逛逛</button>
+              </div>
+            </aside>
           </div>
         </section>
 

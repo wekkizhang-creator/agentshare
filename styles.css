@@ -3115,3 +3115,541 @@ th {
     min-height: 620px;
   }
 }
+
+/* ===== 端内入口演示 ===== */
+.inapp-lead {
+  margin: 0 0 16px;
+  max-width: 880px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.inapp-strategy {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.inapp-strategy-card {
+  position: relative;
+  padding: 14px 14px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.inapp-strategy-no {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--teal);
+  letter-spacing: 1px;
+}
+
+.inapp-strategy-card strong {
+  display: block;
+  margin: 4px 0 4px;
+  font-size: 14px;
+}
+
+.inapp-strategy-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.inapp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 308px;
+  gap: 16px;
+  align-items: start;
+}
+
+.inapp-editor {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.inapp-doc-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: var(--panel-soft);
+  border-bottom: 1px solid var(--line);
+}
+
+.inapp-tool-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.inapp-tool-tabs span {
+  padding: 5px 10px;
+  font-size: 13px;
+  color: var(--muted);
+  border-radius: 6px;
+}
+
+.inapp-tool-tabs .active {
+  color: var(--teal-dark);
+  background: var(--teal-soft);
+  font-weight: 700;
+}
+
+.inapp-ai-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 7px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--indigo) 100%);
+  box-shadow: 0 6px 16px rgba(8, 118, 104, 0.28);
+}
+
+.inapp-ai-entry svg {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.7;
+}
+
+.inapp-doc-canvas {
+  position: relative;
+  padding: 26px;
+  background: #eef0ec;
+  max-height: 640px;
+  overflow: auto;
+}
+
+.inapp-doc-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 46px 48px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(29, 36, 36, 0.12);
+  color: #2a302f;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.doc2-title {
+  margin: 0 0 6px;
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: 6px;
+}
+
+.doc2-no {
+  margin: 0 0 14px;
+  text-align: right;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.doc2-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 6px 0;
+}
+
+.doc2-row.sign {
+  margin-top: 22px;
+}
+
+.doc2-row > i {
+  flex: 1;
+  border-bottom: 1px solid #9aa3a0;
+  min-width: 40px;
+}
+
+.doc2-row > i.short {
+  flex: none;
+  width: 120px;
+}
+
+.doc2-p {
+  margin: 12px 0;
+  text-indent: 2em;
+}
+
+.doc2-h {
+  margin: 9px 0;
+}
+
+.doc2-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 12px;
+}
+
+.doc2-table th,
+.doc2-table td {
+  border: 1px solid #b9c0bd;
+  padding: 6px 4px;
+  text-align: center;
+}
+
+.doc2-table th {
+  background: #f3f5f1;
+  font-weight: 600;
+}
+
+.doc2-table td {
+  height: 24px;
+}
+
+/* 选中条款 + 悬浮处理菜单 */
+.inapp-selection {
+  position: relative;
+}
+
+.doc2-h.selected {
+  background: rgba(67, 89, 168, 0.16);
+  box-shadow: 0 0 0 1px rgba(67, 89, 168, 0.4);
+  border-radius: 3px;
+}
+
+.inapp-selpop {
+  position: absolute;
+  left: 50%;
+  top: -14px;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #1d2424;
+  color: #fff;
+  border-radius: 9px;
+  box-shadow: 0 12px 28px rgba(29, 36, 36, 0.35);
+  white-space: nowrap;
+  z-index: 4;
+}
+
+.inapp-selpop::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: #1d2424;
+}
+
+.inapp-selpop-label {
+  font-size: 11.5px;
+  color: #b9c2c0;
+}
+
+.inapp-selpop-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.inapp-selpop-actions button {
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.inapp-selpop-actions button:hover {
+  background: var(--teal);
+}
+
+/* 上下文智能推荐气泡 */
+.inapp-bubble {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 268px;
+  padding: 14px 14px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  box-shadow: 0 18px 42px rgba(29, 36, 36, 0.2);
+  z-index: 5;
+}
+
+.inapp-bubble.dismissed {
+  display: none;
+}
+
+.inapp-bubble-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--soft);
+  font-size: 13px;
+}
+
+.inapp-bubble-close:hover {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.inapp-bubble-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-right: 18px;
+}
+
+.inapp-bubble-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 4px var(--teal-soft);
+}
+
+.inapp-bubble-head strong {
+  font-size: 13px;
+}
+
+.inapp-bubble > p {
+  margin: 8px 0 10px;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.inapp-bubble-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.inapp-bubble-chips button {
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel-soft);
+  color: var(--teal-dark);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.inapp-bubble-chips button:hover {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.inapp-bubble-more {
+  width: 100%;
+  padding: 8px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--teal);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.inapp-bubble-more:hover {
+  background: var(--teal-dark);
+}
+
+/* 右侧 Agent 推荐栏 */
+.inapp-rail {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: sticky;
+  top: 14px;
+}
+
+.inapp-rail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.inapp-rail-head strong {
+  display: block;
+  font-size: 14px;
+}
+
+.inapp-rail-head span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.inapp-rail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  max-height: 560px;
+  overflow: auto;
+}
+
+.inapp-agent-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel-soft);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.inapp-agent-card:hover {
+  border-color: var(--teal);
+  box-shadow: 0 10px 24px rgba(8, 118, 104, 0.14);
+  transform: translateY(-1px);
+}
+
+.inapp-agent-cover {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  min-height: 0;
+}
+
+.inapp-agent-cover::before,
+.inapp-agent-cover::after {
+  display: none;
+}
+
+.inapp-agent-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.inapp-agent-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.inapp-agent-top strong {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inapp-agent-score {
+  flex: none;
+  font-size: 11.5px;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.inapp-agent-reason {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.inapp-agent-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.inapp-agent-actions button {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.inapp-use {
+  border: 0;
+  background: var(--teal);
+  color: #fff;
+}
+
+.inapp-use:hover {
+  background: var(--teal-dark);
+}
+
+.inapp-open {
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.inapp-open:hover {
+  border-color: var(--teal);
+  color: var(--teal-dark);
+}
+
+.inapp-rail-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.inapp-rail-foot span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@media (max-width: 980px) {
+  .inapp-strategy {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inapp-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .inapp-rail {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .inapp-doc-page {
+    padding: 24px 20px 30px;
+  }
+
+  .inapp-bubble {
+    position: static;
+    width: auto;
+    margin-bottom: 16px;
+  }
+}
